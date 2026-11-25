@@ -1,0 +1,311 @@
+/* =====================================================================
+   LOTAL GHANA — High-End Glassmorphism & Material Theme
+   Colors: Blue (#1B6BFF), Void Black (#070B14), Fog White (#D8E2F0), Gold (#F5B21E)
+===================================================================== */
+
+:root {
+  --color-void: #070b14;
+  --color-plate: #0d1524;
+  --color-machined: #131e31;
+  --color-edge: #1e2c44;
+  --color-blue: #1b6bff;
+  --color-blue-dark: #0b3fa8;
+  --color-blue-light: #5c9bff;
+  --color-steel: #8fa2bf;
+  --color-fog: #d8e2f0;
+  --color-gold: #f5b21e;
+  --font-display: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-void);
+  color: var(--color-fog);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+/* Typography signatures */
+.tabular {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+.micro {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-steel);
+  font-weight: 500;
+}
+
+.micro-gold {
+  color: var(--color-gold);
+}
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+}
+
+/* Material & Glassmorphism */
+.plate {
+  background: linear-gradient(160deg, rgba(30, 44, 68, 0.55) 0%, rgba(13, 21, 36, 0.92) 60%);
+  border: 1px solid rgba(143, 162, 191, 0.16);
+  border-radius: 6px;
+  position: relative;
+}
+
+.plate-flat {
+  background: rgba(13, 21, 36, 0.72);
+  border: 1px solid rgba(143, 162, 191, 0.14);
+  border-radius: 6px;
+}
+
+.glass {
+  background: rgba(9, 15, 27, 0.72);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid rgba(143, 162, 191, 0.18);
+  border-radius: 8px;
+}
+
+.glass-card {
+  background: rgba(13, 21, 36, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(143, 162, 191, 0.15);
+  border-radius: 6px;
+  transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1), border-color 0.25s, box-shadow 0.25s;
+}
+
+.glass-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(92, 155, 255, 0.5);
+  box-shadow: 0 20px 40px -20px rgba(27, 107, 255, 0.6);
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Header */
+header.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 68px;
+  background: rgba(7, 11, 20, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.nav-links {
+  display: flex;
+  gap: 28px;
+}
+
+.nav-link {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(216, 226, 240, 0.8);
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.nav-link:hover {
+  color: #fff;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--color-blue-light);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.2s ease;
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Controls */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  font-weight: 500;
+  padding: 12px 22px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  transition: all 0.2s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.btn-primary {
+  background: var(--color-blue);
+  color: #fff;
+  box-shadow: 0 10px 28px -10px rgba(27, 107, 255, 0.85);
+}
+
+.btn-primary:hover {
+  background: var(--color-blue-light);
+  color: #04122c;
+  transform: translateY(-2px);
+}
+
+.btn-ghost {
+  border-color: rgba(143, 162, 191, 0.32);
+  color: var(--color-fog);
+  background: rgba(216, 226, 240, 0.03);
+}
+
+.btn-ghost:hover {
+  border-color: var(--color-blue-light);
+  color: var(--color-blue-light);
+  transform: translateY(-2px);
+}
+
+.field {
+  width: 100%;
+  background: rgba(7, 11, 20, 0.65);
+  border: 1px solid rgba(143, 162, 191, 0.24);
+  border-radius: 4px;
+  padding: 12px 14px;
+  color: var(--color-fog);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  transition: border-color 0.18s, background 0.18s;
+}
+
+.field:focus {
+  border-color: var(--color-blue);
+  background: rgba(27, 107, 255, 0.08);
+  outline: none;
+}
+
+select.field {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--color-steel) 50%),
+    linear-gradient(135deg, var(--color-steel) 50%, transparent 50%);
+  background-position: calc(100% - 20px) 18px, calc(100% - 14px) 18px;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+
+main {
+  margin-top: 68px;
+  flex: 1;
+}
+
+/* Animations */
+@keyframes pulseDot {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(27, 107, 255, 0.6); }
+  70% { box-shadow: 0 0 0 10px rgba(27, 107, 255, 0); }
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-blue);
+  display: inline-block;
+  animation: pulseDot 2s infinite;
+}
+
+/* Product Grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 24px;
+}
+
+/* Milestone Rail on Tracking Page */
+.rail-track {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+}
+
+.rail-step {
+  padding: 12px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.03);
+  border-top: 3px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s;
+}
+
+.rail-step.active {
+  background: rgba(27, 107, 255, 0.18);
+  border-top-color: var(--color-blue);
+}
+
+/* Footer */
+footer.site-footer {
+  margin-top: 80px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(13, 21, 36, 0.6);
+  padding: 50px 0 30px;
+}
+
+/* Responsive */
+@media (max-width: 860px) {
+  .nav-links {
+    display: none;
+  }
+}
