@@ -20,11 +20,10 @@ const storedPaystackKey = (typeof localStorage !== "undefined" && localStorage.g
 
 window.LOTAL_CONFIG = {
   // Supabase Credentials
-  SUPABASE_URL: storedSupabaseUrl || window.SUPABASE_URL || "https://your-project-ref.supabase.co",
-  SUPABASE_ANON_KEY: storedSupabaseKey || window.SUPABASE_ANON_KEY || "eyJhbGciOi...",
-
+  SUPABASE_URL: storedSupabaseUrl || window.SUPABASE_URL || "https://fogkwmwbuqumqxiedkzi.supabase.co",
+  SUPABASE_ANON_KEY: storedSupabaseKey || window.SUPABASE_ANON_KEY || "sb_publishable_eE08In_2tmo_TsaudiDIpw_qq4jZvy-
   // Paystack Public Key for GHS Mobile Money & Cards
-  PAYSTACK_PUBLIC_KEY: storedPaystackKey || window.PAYSTACK_PUBLIC_KEY || "pk_test_placeholder_lotal_ghana",
+  PAYSTACK_PUBLIC_KEY: storedPaystackKey || window.PAYSTACK_PUBLIC_KEY || "pk_live_132bcfe226499aceb0d2ecd71f4890a495c283b3",
 
   // Business Parameters
   STORE_NAME: "LOTAL GHANA",
@@ -32,7 +31,7 @@ window.LOTAL_CONFIG = {
   RETURN_DAYS: 7,
   PHONE: "+233 30 274 1188",
   EMAIL: "support@lotalghana.com",
-  LOCATION: "14 Oxford Street, Osu — Accra, Ghana",
+  LOCATION: "Kumasi, Ghana",
 
   // Delivery Fees in Pesewas (GH¢ x 100)
   DELIVERY_FEES: {
