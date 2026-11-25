@@ -4,9 +4,9 @@
  * =====================================================================
  */
 
-const storedSupabaseUrl = (typeof localStorage !== "undefined" && localStorage.getItem("lotal_supabase_url")) || "";
-const storedSupabaseKey = (typeof localStorage !== "undefined" && localStorage.getItem("lotal_supabase_key")) || "";
-const storedPaystackKey = (typeof localStorage !== "undefined" && localStorage.getItem("lotal_paystack_key")) || "";
+const storedSupabaseUrl = (typeof localStorage !== "undefined" && localStorage.getItem("lotal_supabase_url")) || "https://fogkwmwbuqumqxiedkzi.supabase.co";
+const storedSupabaseKey = (typeof localStorage !== "undefined" && localStorage.getItem("lotal_supabase_key")) || "sb_publishable_eE08In_2tmo_TsaudiDIpw_qq4jZvy-";
+const storedPaystackKey = (typeof localStorage !== "undefined" && localStorage.getItem("lotal_paystack_key")) || "pk_live_132bcfe226499aceb0d2ecd71f4890a495c283b3";
 
 window.LOTAL_CONFIG = {
   // Supabase Credentials
