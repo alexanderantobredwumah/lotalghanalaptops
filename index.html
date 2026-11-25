@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LOTAL GHANA — Graded Used Laptops with 14-Day Warranty & Paystack</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+  <script src="supabase-config.js"></script>
+  <script src="./supabase-config.js"></script>
+  <script src="/supabase-config.js"></script>
+  <script src="app.js"></script>
+  <script src="./app.js"></script>
+  <script src="/app.js"></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/index.html" style="display: flex; align-items: center; gap: 10px;">
+        <svg width="32" height="32" viewBox="0 0 48 48" fill="none" style="color: var(--color-blue-light)">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M7 3h25.2L45 15.8V41a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4Zm7.4 12.2a1 1 0 0 0-1 1v19.6a1 1 0 0 0 1 1h19.4a1 1 0 0 0 1-1v-6.1a1 1 0 0 0-1-1H17.4V16.2a1 1 0 0 0-1-1Z" fill="currentColor"/>
+          <path d="M33.4 4.1 35 6.2l2.5.3-1.9 1.7.5 2.5-2.2-1.3-2.2 1.3.5-2.5-1.9-1.7 2.5-.3 1.6-2.1Z" fill="#F5B21E"/>
+        </svg>
+        <span style="font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; color: white;">LOTAL <span class="micro micro-gold" style="font-size: 0.62rem;">GHANA</span></span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="/shop.html" class="nav-link">Inventory</a>
+        <a href="/track.html" class="nav-link">Track Order</a>
+        <a href="/index.html#warranty" class="nav-link">14-Day Warranty</a>
+        <a href="/index.html#how" class="nav-link">How It Works</a>
+        <a href="/index.html#contact" class="nav-link">Contact</a>
+      </nav>
+
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div class="auth-user-slot"></div>
+        <a href="/cart.html" class="btn btn-ghost" style="padding: 8px 14px; position: relative;">
+          Cart <span class="cart-count-badge tabular" style="display: none; background: var(--color-gold); color: #000; font-size: 0.65rem; border-radius: 50%; width: 18px; height: 18px; align-items: center; justify-content: center; margin-left: 6px; font-weight: 700;">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section style="position: relative; padding: 90px 0 70px; overflow: hidden; background: radial-gradient(circle at 85% 20%, rgba(27,107,255,0.18), transparent 60%);">
+      <div class="container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 48px; align-items: center;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 20px;">
+            <span class="live-dot"></span>
+            <p class="micro micro-gold">01 / LOTAL GHANA — OSU WORKSHOP, ACCRA</p>
+          </div>
+          <h1 class="display" style="font-size: clamp(2.4rem, 5.2vw, 4.4rem); color: white;">
+            Every used laptop, tested on our bench.
+          </h1>
+          <p style="margin-top: 24px; font-size: 1.05rem; color: var(--color-fog); opacity: 0.88; max-width: 540px; line-height: 1.6;">
+            Fairly used MacBooks, Dell, HP, Lenovo, ASUS & Surface laptops. Graded honestly, verified with 32 diagnostic tests, and backed by our ironclad <strong>14-day warranty</strong> and unique tracking codes.
+          </p>
+          <div style="display: flex; gap: 14px; margin-top: 36px; flex-wrap: wrap;">
+            <a href="/shop.html" class="btn btn-primary">Browse Inventory →</a>
+            <a href="/track.html" class="btn btn-ghost">Track an Order</a>
+          </div>
+          <div style="display: flex; gap: 28px; margin-top: 40px; padding-top: 28px; border-top: 1px solid rgba(255,255,255,0.1); flex-wrap: wrap;">
+            <div><span class="tabular" style="font-size: 1.2rem; color: white; font-weight: 600;">14 days</span><p class="micro" style="margin-top: 2px;">Warranty</p></div>
+            <div><span class="tabular" style="font-size: 1.2rem; color: white; font-weight: 600;">32-point</span><p class="micro" style="margin-top: 2px;">Diagnostic</p></div>
+            <div><span class="tabular" style="font-size: 1.2rem; color: white; font-weight: 600;">Paystack</span><p class="micro" style="margin-top: 2px;">MoMo & Cards</p></div>
+            <div><span class="tabular" style="font-size: 1.2rem; color: white; font-weight: 600;">16 cities</span><p class="micro" style="margin-top: 2px;">Delivery</p></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="glass" style="padding: 24px; border-radius: 8px;">
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px;">
+              <span class="micro">Featured Unit · Ready in Osu</span>
+              <span class="micro micro-gold">14-DAY WARRANTY</span>
+            </div>
+            <img src="images/hero.jpg" alt="Laptop on bench" style="width: 100%; height: 230px; object-fit: cover; border-radius: 4px; margin-top: 16px;">
+            <h3 class="display" style="font-size: 1.35rem; margin-top: 16px; color: white;">MacBook Pro 14" M1 Pro</h3>
+            <p style="font-size: 0.88rem; color: var(--color-steel); margin-top: 6px;">16GB Unified Memory · 512GB SSD · 94% Battery Health</p>
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 20px;">
+              <div>
+                <p class="micro">PRICE</p>
+                <p class="tabular" style="font-size: 1.5rem; color: var(--color-gold); font-weight: 700;">GH₵11,450.00</p>
+              </div>
+              <a href="/product.html?slug=macbook-pro-14-m1-pro" class="btn btn-primary" style="padding: 8px 16px; font-size: 0.72rem;">Inspect Unit →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Warranty & Trust -->
+    <section id="warranty" style="padding: 70px 0; border-top: 1px solid rgba(255,255,255,0.08); background: rgba(13,21,36,0.5);">
+      <div class="container">
+        <p class="micro micro-gold">02 / Ironclad Guarantee</p>
+        <h2 class="display" style="font-size: clamp(2rem, 4vw, 3rem); color: white; margin-top: 8px;">14-Day Warranty on Every Unit</h2>
+        <p style="margin-top: 12px; font-size: 1rem; color: var(--color-steel); max-width: 620px;">
+          Parts and labour covered for 14 full days. If any hardware defect appears, we repair, replace or refund. Plus a 7-day no-questions return policy.
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-top: 36px;">
+          <div class="plate-flat" style="padding: 24px;">
+            <p class="micro micro-gold">01 / Testing</p>
+            <h3 style="font-size: 1.15rem; color: white; margin-top: 8px;">32-Point Diagnostic</h3>
+            <p style="font-size: 0.88rem; color: var(--color-steel); margin-top: 8px;">Battery cycle count, thermal stress test, keyboard, screen panel & ports checked.</p>
+          </div>
+          <div class="plate-flat" style="padding: 24px;">
+            <p class="micro micro-gold">02 / Payment</p>
+            <h3 style="font-size: 1.15rem; color: white; margin-top: 8px;">Paystack Secured</h3>
+            <p style="font-size: 0.88rem; color: var(--color-steel); margin-top: 8px;">Pay instantly via MTN MoMo, Telecel Cash, AT Money, or Visa / Mastercard.</p>
+          </div>
+          <div class="plate-flat" style="padding: 24px;">
+            <p class="micro micro-gold">03 / Tracking</p>
+            <h3 style="font-size: 1.15rem; color: white; margin-top: 8px;">Unique Tracking Code</h3>
+            <p style="font-size: 0.88rem; color: var(--color-steel); margin-top: 8px;">Track every order step-by-step from our bench in Osu to your door.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Available Stock Section -->
+    <section style="padding: 70px 0;">
+      <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 32px; flex-wrap: wrap; gap: 16px;">
+          <div>
+            <p class="micro micro-gold">03 / Graded Stock</p>
+            <h2 class="display" style="font-size: 2.2rem; color: white; margin-top: 6px;">Available Laptops</h2>
+          </div>
+          <a href="/shop.html" class="btn btn-ghost">View All Laptops →</a>
+        </div>
+
+        <div id="homeProductGrid" class="product-grid">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="how" style="padding: 60px 0; border-top: 1px solid rgba(255,255,255,0.08); background: rgba(13,21,36,0.6);">
+      <div class="container">
+        <p class="micro micro-gold">04 / Our Process</p>
+        <h2 class="display" style="font-size: 2.2rem; color: white; margin-top: 8px;">How Grading & Delivery Works</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 32px;">
+          <div class="plate" style="padding: 24px;">
+            <span class="micro micro-gold">Step 1</span>
+            <h3 style="color: white; margin-top: 8px; font-size: 1.2rem;">Create Your Account</h3>
+            <p style="color: var(--color-steel); font-size: 0.9rem; margin-top: 8px;">Registration takes under 1 minute and ensures your 14-day warranty is officially registered.</p>
+          </div>
+          <div class="plate" style="padding: 24px;">
+            <span class="micro micro-gold">Step 2</span>
+            <h3 style="color: white; margin-top: 8px; font-size: 1.2rem;">Checkout with Paystack</h3>
+            <p style="color: var(--color-steel); font-size: 0.9rem; margin-top: 8px;">Pay with your preferred Mobile Money network or card. Pay on delivery is also available in Accra.</p>
+          </div>
+          <div class="plate" style="padding: 24px;">
+            <span class="micro micro-gold">Step 3</span>
+            <h3 style="color: white; margin-top: 8px; font-size: 1.2rem;">Track via Unique Code</h3>
+            <p style="color: var(--color-steel); font-size: 0.9rem; margin-top: 8px;">Follow your delivery in real-time until it is placed in your hands with the warranty certificate.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer id="contact" class="site-footer">
+    <div class="container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 40px;">
+      <div>
+        <p style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; color: white;">LOTAL <span class="micro micro-gold">GHANA</span></p>
+        <p style="margin-top: 14px; font-size: 0.9rem; color: var(--color-steel); line-height: 1.6;">
+          Graded used & fairly used laptops in Ghana. Every machine tested on our bench with a 14-day warranty and unique tracking code.
+        </p>
+        <p class="tabular" style="margin-top: 16px; font-size: 0.85rem; color: var(--color-fog);">
+          14 Oxford Street, Osu — Accra, Ghana<br>
+          +233 30 274 1188 · support@lotalghana.com
+        </p>
+      </div>
+      <div>
+        <p class="micro micro-gold">Customer Care</p>
+        <ul style="list-style: none; margin-top: 16px; display: flex; flex-direction: column; gap: 10px; font-size: 0.9rem;">
+          <li><a href="/track.html" style="color: var(--color-steel);">Track Your Order</a></li>
+          <li><a href="/shop.html" style="color: var(--color-steel);">Browse Laptops</a></li>
+          <li><a href="/cart.html" style="color: var(--color-steel);">Shopping Cart</a></li>
+          <li><a href="/account.html" style="color: var(--color-steel);">Account & 14-Day Warranty</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="micro micro-gold">Payment & Security</p>
+        <p style="margin-top: 14px; font-size: 0.88rem; color: var(--color-steel); line-height: 1.6;">
+          Paystack Ghana integration supporting MTN Mobile Money, Telecel Cash, AT Money, Visa & Mastercard.
+        </p>
+        <div style="display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap;">
+          <span class="micro" style="border: 1px solid rgba(255,255,255,0.12); padding: 4px 8px; border-radius: 3px;">MTN MoMo</span>
+          <span class="micro" style="border: 1px solid rgba(255,255,255,0.12); padding: 4px 8px; border-radius: 3px;">Telecel</span>
+          <span class="micro" style="border: 1px solid rgba(255,255,255,0.12); padding: 4px 8px; border-radius: 3px;">Visa</span>
+          <span class="micro" style="border: 1px solid rgba(255,255,255,0.12); padding: 4px 8px; border-radius: 3px;">Mastercard</span>
+        </div>
+      </div>
+    </div>
+    <div class="container" style="margin-top: 40px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 0.8rem; color: var(--color-steel);">
+      <p>© 2026 LOTAL GHANA LTD · 14-DAY WARRANTY ON EVERY UNIT</p>
+      <p><a href="/track.html" style="color: var(--color-blue-light);">TRACK YOUR ORDER WITH CODE</a></p>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const grid = document.getElementById("homeProductGrid");
+      const products = await Store.getProducts();
+      const preview = products.slice(0, 6);
+      grid.innerHTML = preview.map(item => `
+        <div class="glass-card" style="padding: 20px; display: flex; flex-direction: column;">
+          <img src="${item.image}" alt="${item.name}" style="width: 100%; height: 180px; object-fit: cover; border-radius: 4px;">
+          <div style="display: flex; justify-content: space-between; margin-top: 14px;">
+            <span class="micro">${item.brand}</span>
+            <span class="micro micro-gold">GRADE ${item.grade} · 14-DAY</span>
+          </div>
+          <h3 class="display" style="font-size: 1.15rem; color: white; margin-top: 8px;">${item.name}</h3>
+          <p style="font-size: 0.82rem; color: var(--color-steel); margin-top: 4px;">${item.processor}</p>
+          <p style="font-size: 0.82rem; color: var(--color-fog); opacity: 0.8; margin-top: 4px;">${item.ram} · ${item.storage}</p>
+          <div style="margin-top: auto; padding-top: 20px; display: flex; justify-content: space-between; align-items: baseline;">
+            <span class="tabular" style="font-size: 1.25rem; color: var(--color-gold); font-weight: 600;">${formatGHS(item.price)}</span>
+            <a href="/product.html?slug=${encodeURIComponent(item.slug)}" class="btn btn-primary" style="padding: 8px 14px; font-size: 0.7rem;">Specs</a>
+          </div>
+        </div>
+      `).join("");
+    });
+  </script>
+</body>
+</html>
