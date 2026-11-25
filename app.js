@@ -891,7 +891,7 @@ const Store = {
 function payWithPaystack({ email, amountInPesewas, reference, onSuccess, onClose }) {
   // Live Paystack Public Key
   const defaultPaystackKey = "pk_live_132bcfe226499aceb0d2ecd71f4890a495c283b3";
-  const publicKey = (typeof localStorage !== "undefined" && localStorage.getItem("lotal_paystack_key")) || window.LOTAL_CONFIG?.PAYSTACK_PUBLIC_KEY || defaultPaystackKey;
+  const publicKey = (typeof localStorage !== "undefined" && localStorage.getItem("pk_live_132bcfe226499aceb0d2ecd71f4890a495c283b3")) || window.LOTAL_CONFIG?.PAYSTACK_PUBLIC_KEY || defaultPaystackKey;
 
   if (window.PaystackPop && publicKey.startsWith("pk_")) {
     const handler = window.PaystackPop.setup({
