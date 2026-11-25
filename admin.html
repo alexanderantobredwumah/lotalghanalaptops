@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Operations Console — LOTAL GHANA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="./supabase-config.js"></script>
+  <script src="/supabase-config.js"></script>
+  <script src="app.js"></script>
+  <script src="./app.js"></script>
+  <script src="/app.js"></script>
+</head>
+<body style="padding: 24px;">
+
+  <div id="adminApp">
+    <!-- Rendered by JS: either login form or full dashboard -->
+  </div>
+
+  <!-- ------------------------------------------------------------- -->
+  <!-- MODAL 1: EDIT / ADD PRODUCT -->
+  <!-- ------------------------------------------------------------- -->
+  <div id="productModal" style="display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); align-items: center; justify-content: center; padding: 20px; overflow-y: auto;">
+    <div class="plate" style="background: #0d1524; max-width: 720px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 28px; border-radius: 8px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 14px;">
+        <div>
+          <p class="micro micro-gold" id="modalSubTitle">Catalogue Management</p>
+          <h2 class="display" id="modalMainTitle" style="color: white; font-size: 1.5rem; margin-top: 4px;">Edit Laptop Specification</h2>
+        </div>
+        <button type="button" onclick="closeProductModal()" style="background: none; border: none; color: var(--color-steel); font-size: 1.5rem; cursor: pointer;">✕</button>
+      </div>
+
+      <form id="productForm" style="margin-top: 20px; display: flex; flex-direction: column; gap: 16px;">
+        <input type="hidden" id="pId">
+        <input type="hidden" id="pSlug">
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+          <div>
+            <label class="micro">Brand</label>
+            <select id="pBrand" class="field" style="margin-top: 6px;">
+              <option value="Apple">Apple</option>
+              <option value="Dell">Dell</option>
+              <option value="HP">HP</option>
+              <option value="Lenovo">Lenovo</option>
+              <option value="ASUS">ASUS</option>
+              <option value="Microsoft">Microsoft</option>
+              <option value="Acer">Acer</option>
+            </select>
+          </div>
+          <div>
+            <label class="micro">Model Name</label>
+            <input type="text" id="pName" required class="field" style="margin-top: 6px;" placeholder="e.g. MacBook Pro 14 M1 Pro">
+          </div>
+        </div>
+
+        <div>
+          <label class="micro">Tagline / Highlight</label>
+          <input type="text" id="pTagline" class="field" style="margin-top: 6px;" placeholder="e.g. 2021 · Space Grey · 10-core CPU">
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px;">
+          <div>
+            <label class="micro">Price (GH₵)</label>
+            <input type="number" step="0.01" id="pPrice" required class="field tabular" style="margin-top: 6px;">
+          </div>
+          <div>
+            <label class="micro">Old Price (GH₵)</label>
+            <input type="number" step="0.01" id="pOldPrice" class="field tabular" style="margin-top: 6px;" placeholder="Optional">
+          </div>
+          <div>
+            <label class="micro">Stock Quantity (Restock)</label>
+            <input type="number" min="0" id="pStock" required class="field tabular" style="margin-top: 6px;">
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px;">
+          <div>
+            <label class="micro">Cosmetic Grade</label>
+            <select id="pGrade" class="field" style="margin-top: 6px;">
+              <option value="A">Grade A (Mint / Near Mint)</option>
+              <option value="A-">Grade A- (Very Clean)</option>
+              <option value="B+">Grade B+ (Minor Light Mark)</option>
+              <option value="B">Grade B (Fairly Used)</option>
+            </select>
+          </div>
+          <div>
+            <label class="micro">Battery Health (%)</label>
+            <input type="number" min="50" max="100" id="pBattery" required class="field tabular" style="margin-top: 6px;">
+          </div>
+          <div>
+            <label class="micro">Operating System</label>
+            <input type="text" id="pOs" required class="field" style="margin-top: 6px;" placeholder="macOS Sequoia / Windows 11 Pro">
+          </div>
+        </div>
+
+        <div>
+          <label class="micro">Honest Inspection Note</label>
+          <textarea id="pGradeNote" rows="2" class="field" style="margin-top: 6px;" placeholder="Condition details observed on bench..."></textarea>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px;">
+          <div>
+            <label class="micro">Processor (CPU)</label>
+            <input type="text" id="pProcessor" required class="field" style="margin-top: 6px;">
+          </div>
+          <div>
+            <label class="micro">Memory (RAM)</label>
+            <input type="text" id="pRam" required class="field" style="margin-top: 6px;">
+          </div>
+          <div>
+            <label class="micro">Storage (SSD)</label>
+            <input type="text" id="pStorage" required class="field" style="margin-top: 6px;">
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+          <div>
+            <label class="micro">Screen Display</label>
+            <input type="text" id="pScreen" required class="field" style="margin-top: 6px;">
+          </div>
+          <div>
+            <label class="micro">Graphics (GPU)</label>
+            <input type="text" id="pGraphics" class="field" style="margin-top: 6px;">
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+          <div>
+            <label class="micro">Image Path / URL</label>
+            <input type="text" id="pImage" required class="field" style="margin-top: 6px;" placeholder="images/laptop-silver.jpg">
+          </div>
+          <div>
+            <label class="micro">Ports</label>
+            <input type="text" id="pPorts" class="field" style="margin-top: 6px;" placeholder="USB-C, USB-A, HDMI">
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px; align-items: center; margin-top: 8px;">
+          <input type="checkbox" id="pFeatured" style="width: 16px; height: 16px;">
+          <label for="pFeatured" style="font-size: 0.85rem; color: var(--color-fog);">Featured laptop on homepage</label>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 16px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 16px;">
+          <button type="button" onclick="closeProductModal()" class="btn btn-ghost">Cancel</button>
+          <button type="submit" id="saveProdBtn" class="btn btn-primary">Save Changes →</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ------------------------------------------------------------- -->
+  <!-- MODAL 2: TRACKING PROCESS & MILESTONES MANAGEMENT -->
+  <!-- ------------------------------------------------------------- -->
+  <div id="trackingModal" style="display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); align-items: center; justify-content: center; padding: 20px; overflow-y: auto;">
+    <div class="plate" style="background: #0d1524; max-width: 800px; width: 100%; max-height: 92vh; overflow-y: auto; padding: 28px; border-radius: 8px;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 14px;">
+        <div>
+          <p class="micro micro-gold">Order Tracking Management</p>
+          <h2 class="display tabular" id="trackModalCode" style="color: white; font-size: 1.8rem; margin-top: 4px;">LT-XXXX-XXXX-X</h2>
+          <p class="micro" id="trackModalMeta" style="color: var(--color-steel); margin-top: 4px;">Customer: — · Destination: —</p>
+        </div>
+        <button type="button" onclick="closeTrackingModal()" style="background: none; border: none; color: var(--color-steel); font-size: 1.5rem; cursor: pointer;">✕</button>
+      </div>
+
+      <!-- Quick Stage Advance Rail -->
+      <div style="margin-top: 20px; padding: 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px;">
+        <p class="micro micro-gold" style="margin-bottom: 10px;">Advance Tracking Milestone</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px;" id="milestoneButtonsContainer">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-top: 20px;">
+        <!-- Form: Add Custom Tracking Checkpoint -->
+        <div style="padding: 18px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px;">
+          <p class="micro micro-gold">Add Custom Milestone Checkpoint</p>
+          <form id="addEventForm" style="margin-top: 12px; display: flex; flex-direction: column; gap: 12px;">
+            <div>
+              <label class="micro">Milestone Title</label>
+              <input type="text" id="evTitle" required placeholder="e.g. Courier Assigned: Kwame (055-190-4477)" class="field" style="margin-top: 4px; font-size: 0.85rem; padding: 8px 10px;">
+            </div>
+            <div>
+              <label class="micro">Milestone Stage</label>
+              <select id="evStage" class="field" style="margin-top: 4px; font-size: 0.85rem; padding: 8px 10px;">
+                <option value="placed">Order Placed</option>
+                <option value="paid">Payment Confirmed</option>
+                <option value="packing" selected>Diagnostic & Packing</option>
+                <option value="dispatched">Dispatched from Osu</option>
+                <option value="out_for_delivery">Out for Delivery</option>
+                <option value="delivered">Delivered</option>
+              </select>
+            </div>
+            <div>
+              <label class="micro">Detailed Note / Rider comments</label>
+              <textarea id="evNote" rows="2" placeholder="e.g. Dispatched on delivery motorbike. Expected arrival 2:30pm." class="field" style="margin-top: 4px; font-size: 0.85rem; padding: 8px 10px;"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="padding: 9px 14px; font-size: 0.72rem;">+ Post to Tracking Rail</button>
+          </form>
+        </div>
+
+        <!-- Form: Edit Delivery Details -->
+        <div style="padding: 18px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px;">
+          <p class="micro micro-gold">Edit Delivery & Contact Details</p>
+          <form id="editDeliveryForm" style="margin-top: 12px; display: flex; flex-direction: column; gap: 12px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <div>
+                <label class="micro">Full Name</label>
+                <input type="text" id="delName" required class="field" style="margin-top: 4px; font-size: 0.85rem; padding: 8px 10px;">
+              </div>
+              <div>
+                <label class="micro">Phone (MoMo)</label>
+                <input type="text" id="delPhone" required class="field" style="margin-top: 4px; font-size: 0.85rem; padding: 8px 10px;">
+              </div>
+            </div>
+            <div>
+              <label class="micro">Destination City</label>
+              <select id="delCity" class="field" style="margin-top: 4px; font-size: 0.85rem; padding: 8px 10px;">
+                <option value="Accra">Accra</option>
+                <option value="Tema">Tema</option>
+                <option value="Kumasi">Kumasi</option>
+                <option value="Takoradi">Takoradi</option>
+                <option value="Cape Coast">Cape Coast</option>
+                <option value="Tamale">Tamale</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div>
+              <label class="micro">Address & Landmark</label>
+              <textarea id="delAddress" required rows="2" class="field" style="margin-top: 4px; font-size: 0.85rem; padding: 8px 10px;"></textarea>
+            </div>
+            <div>
+              <label class="micro">Rider Special Notes</label>
+              <input type="text" id="delNotes" placeholder="e.g. Gate code, call before arrival" class="field" style="margin-top: 4px; font-size: 0.85rem; padding: 8px 10px;">
+            </div>
+            <button type="submit" class="btn btn-ghost" style="padding: 9px 14px; font-size: 0.72rem; border-color: var(--color-blue); color: var(--color-blue-light);">Save Delivery Info →</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Tracking Events History List -->
+      <div style="margin-top: 20px; padding: 18px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px;">
+        <p class="micro micro-gold" style="margin-bottom: 12px;">Timeline Events on Tracking Rail</p>
+        <div id="eventsListContainer" style="display: flex; flex-direction: column; gap: 10px; max-height: 240px; overflow-y: auto;">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 16px;">
+        <button type="button" onclick="closeTrackingModal()" class="btn btn-ghost">Close Tracking Manager</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const ADMIN_SESSION_KEY = "lotal_admin_logged_in";
+    const STAGES = ['placed', 'paid', 'packing', 'dispatched', 'out_for_delivery', 'delivered'];
+    const STAGE_LABELS = {
+      placed: 'Placed',
+      paid: 'Paid',
+      packing: 'Packing',
+      dispatched: 'Dispatched',
+      out_for_delivery: 'Out for Delivery',
+      delivered: 'Delivered'
+    };
+
+    let cachedProducts = [];
+    let currentTrackingOrderCode = null;
+
+    function isAdminLoggedIn() {
+      return sessionStorage.getItem(ADMIN_SESSION_KEY) === "true";
+    }
+
+    function renderAdmin() {
+      const app = document.getElementById("adminApp");
+      if (!isAdminLoggedIn()) {
+        app.innerHTML = `
+          <div style="max-width: 440px; margin: 100px auto; background: #0d1524; padding: 36px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+            <p class="micro micro-gold">Restricted Access / Operations Desk</p>
+            <h1 class="display" style="color: white; font-size: 1.8rem; margin-top: 8px;">Staff Console</h1>
+            <p style="font-size: 0.85rem; color: var(--color-steel); margin-top: 6px;">
+              Not visible on customer storefront. Access restricted to LOTAL GHANA staff.
+            </p>
+
+            <div id="loginErr" style="display: none; background: rgba(255,80,80,0.15); color: #ff9999; padding: 10px; border-radius: 4px; margin-top: 16px; font-size: 0.85rem;"></div>
+
+            <form id="adminLoginForm" style="margin-top: 24px;">
+              <div>
+                <label class="micro">Staff Email</label>
+                <input type="email" id="adminEmail" required value="admin@lotalghana.com" class="field" style="width: 100%; margin-top: 6px;">
+              </div>
+              <div style="margin-top: 16px;">
+                <label class="micro">Password</label>
+                <input type="password" id="adminPass" required class="field" style="width: 100%; margin-top: 6px;" placeholder="••••••••">
+              </div>
+              <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 24px;">Sign In to Console →</button>
+            </form>
+            <p class="micro" style="margin-top: 16px; text-align: center; color: var(--color-steel);">Default: admin@lotalghana.com / Lotal@2026</p>
+          </div>
+        `;
+
+        document.getElementById("adminLoginForm").addEventListener("submit", (e) => {
+          e.preventDefault();
+          const email = document.getElementById("adminEmail").value.trim().toLowerCase();
+          const pass = document.getElementById("adminPass").value;
+
+          if (email === "admin@lotalghana.com" && (pass === "Lotal@2026" || pass === "password123")) {
+            sessionStorage.setItem(ADMIN_SESSION_KEY, "true");
+            renderAdmin();
+          } else {
+            const err = document.getElementById("loginErr");
+            err.textContent = "Invalid administrator credentials.";
+            err.style.display = "block";
+          }
+        });
+      } else {
+        renderDashboard();
+      }
+    }
+
+    async function renderDashboard() {
+      const app = document.getElementById("adminApp");
+      cachedProducts = await Store.getProducts();
+      const orders = Store.getLocalOrders();
+
+      const totalRevenue = orders.reduce((sum, o) => sum + (o.total || 0), 0);
+
+      const currentSupabaseUrl = localStorage.getItem("lotal_supabase_url") || window.LOTAL_CONFIG?.SUPABASE_URL || "";
+      const currentSupabaseKey = localStorage.getItem("lotal_supabase_key") || window.LOTAL_CONFIG?.SUPABASE_ANON_KEY || "";
+      const currentPaystackKey = localStorage.getItem("lotal_paystack_key") || window.LOTAL_CONFIG?.PAYSTACK_PUBLIC_KEY || "";
+      const isSupabaseLive = currentSupabaseUrl && !currentSupabaseUrl.includes("your-project-ref") && currentSupabaseKey.length > 20;
+
+      app.innerHTML = `
+        <div style="max-width: 1400px; margin: 0 auto;">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 16px; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <p class="micro micro-gold">Operations Console / LOTAL GHANA</p>
+              <h1 class="display" style="color: white; font-size: 2rem; margin-top: 4px;">Staff Management Desk</h1>
+            </div>
+            <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+              <a href="schema.sql" target="_blank" class="btn btn-ghost" style="padding: 6px 12px; font-size: 0.72rem; border-color: var(--color-gold); color: var(--color-gold);">📥 Supabase SQL</a>
+              <span class="micro" style="color: var(--color-blue-light);">admin@lotalghana.com</span>
+              <button onclick="sessionStorage.removeItem('${ADMIN_SESSION_KEY}'); renderAdmin();" class="btn btn-ghost" style="padding: 6px 12px;">Sign Out</button>
+            </div>
+          </div>
+
+          <!-- Stats -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 30px;">
+            <div class="plate" style="padding: 20px;">
+              <span class="micro">Total Orders</span>
+              <p class="tabular" style="font-size: 1.8rem; color: white; margin-top: 6px;">${orders.length}</p>
+            </div>
+            <div class="plate" style="padding: 20px;">
+              <span class="micro">Total Revenue</span>
+              <p class="tabular" style="font-size: 1.8rem; color: var(--color-gold); margin-top: 6px;">${formatGHS(totalRevenue)}</p>
+            </div>
+            <div class="plate" style="padding: 20px;">
+              <span class="micro">Stock Units</span>
+              <p class="tabular" style="font-size: 1.8rem; color: white; margin-top: 6px;">${cachedProducts.length}</p>
+            </div>
+            <div class="plate" style="padding: 20px;">
+              <span class="micro">Supabase Status</span>
+              <p class="micro" style="font-size: 0.85rem; margin-top: 8px; color: ${isSupabaseLive ? 'var(--color-blue-light)' : 'var(--color-gold)'}; font-weight: 600;">
+                ${isSupabaseLive ? '● CONNECTED' : '○ LOCAL / SEED'}
+              </p>
+            </div>
+          </div>
+
+          <!-- Supabase & Paystack Live Configuration Panel -->
+          <div class="plate-flat" style="padding: 24px; margin-bottom: 30px; border-left: 3px solid var(--color-blue);">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+              <div>
+                <p class="micro micro-gold">Database & Gateway Integration</p>
+                <h3 style="color: white; font-size: 1.25rem; margin-top: 4px;">Supabase & Paystack API Keys</h3>
+              </div>
+              <span class="micro" style="color: var(--color-steel);">Runs 100% in pure HTML/JS</span>
+            </div>
+            <p style="font-size: 0.88rem; color: var(--color-steel); margin-top: 8px; line-height: 1.5;">
+              Enter your live Supabase credentials and Paystack Public Key below. They are saved in your browser and used immediately across the entire HTML store for queries, orders, and checkouts.
+            </p>
+
+            <form id="dbConfigForm" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 18px;">
+              <div>
+                <label class="micro">Supabase Project URL</label>
+                <input type="text" id="supabaseUrlInput" value="${currentSupabaseUrl}" placeholder="https://your-ref.supabase.co" class="field" style="margin-top: 6px;">
+              </div>
+              <div>
+                <label class="micro">Supabase Anon Key</label>
+                <input type="text" id="supabaseKeyInput" value="${currentSupabaseKey}" placeholder="eyJhbGciOi..." class="field" style="margin-top: 6px;">
+              </div>
+              <div>
+                <label class="micro">Paystack Public Key</label>
+                <input type="text" id="paystackKeyInput" value="${currentPaystackKey}" placeholder="pk_live_... or pk_test_..." class="field" style="margin-top: 6px;">
+              </div>
+              <div style="display: flex; align-items: flex-end; gap: 8px;">
+                <button type="submit" class="btn btn-primary" style="flex: 1;">Save & Connect →</button>
+              </div>
+            </form>
+            <div id="saveMsg" style="display: none; margin-top: 12px; font-size: 0.85rem; color: var(--color-blue-light);"></div>
+          </div>
+
+          <!-- Inventory Management (Restock, Edit, Delete, Add) -->
+          <div class="plate" style="padding: 24px; margin-bottom: 30px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 20px;">
+              <div>
+                <p class="micro micro-gold">Inventory Control</p>
+                <h2 class="display" style="color: white; font-size: 1.5rem; margin-top: 4px;">Restock, Edit & Delete Laptops</h2>
+              </div>
+              <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                <input type="text" id="prodSearchInput" placeholder="Filter laptops..." oninput="filterAdminProducts(this.value)" class="field" style="width: 220px; font-size: 0.8rem; padding: 6px 12px;">
+                <button type="button" onclick="openAddProductModal()" class="btn btn-primary" style="padding: 8px 16px;">
+                  + Add New Laptop
+                </button>
+              </div>
+            </div>
+
+            <div style="overflow-x: auto;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 0.88rem;">
+                <thead>
+                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); text-align: left;">
+                    <th class="micro" style="padding: 10px;">Model & Specs</th>
+                    <th class="micro" style="padding: 10px;">Grade</th>
+                    <th class="micro" style="padding: 10px;">Price</th>
+                    <th class="micro" style="padding: 10px;">In Stock</th>
+                    <th class="micro" style="padding: 10px;">Quick Restock</th>
+                    <th class="micro" style="padding: 10px; text-align: right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="adminProductsTbody">
+                  ${renderProductsRows(cachedProducts)}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Orders Table with Complete Tracking Process Management -->
+          <div class="plate" style="padding: 24px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
+              <div>
+                <p class="micro micro-gold">Fulfillment & Courier Timeline</p>
+                <h2 class="display" style="color: white; font-size: 1.5rem; margin-top: 4px;">Orders & Tracking Process Management</h2>
+              </div>
+              <span class="micro" style="color: var(--color-steel);">Click "Manage Tracking" on any order</span>
+            </div>
+
+            <div style="overflow-x: auto;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 0.88rem;">
+                <thead>
+                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); text-align: left;">
+                    <th class="micro" style="padding: 10px;">Tracking Code</th>
+                    <th class="micro" style="padding: 10px;">Customer</th>
+                    <th class="micro" style="padding: 10px;">Total</th>
+                    <th class="micro" style="padding: 10px;">Current Status</th>
+                    <th class="micro" style="padding: 10px; text-align: right;">Tracking Process Controls</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${orders.length === 0 ? `
+                    <tr><td colspan="5" style="text-align: center; padding: 30px; color: var(--color-steel);">No customer orders placed yet.</td></tr>
+                  ` : orders.map(ord => `
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+                      <td class="tabular" style="padding: 12px 10px; color: white; font-weight: 600;">${ord.code}</td>
+                      <td style="padding: 12px 10px;">
+                        <strong style="color: white;">${ord.full_name || ord.fullName}</strong><br>
+                        <span class="micro">${ord.city} · ${ord.phone}</span>
+                      </td>
+                      <td class="tabular" style="padding: 12px 10px; color: var(--color-gold); font-weight: 600;">${formatGHS(ord.total)}</td>
+                      <td style="padding: 12px 10px;">
+                        <span class="micro" style="color: var(--color-blue-light); border: 1px solid rgba(27,107,255,0.4); padding: 4px 8px; border-radius: 3px;">
+                          ${(ord.status || 'placed').toUpperCase()}
+                        </span>
+                      </td>
+                      <td style="padding: 12px 10px; text-align: right;">
+                        <div style="display: inline-flex; gap: 8px; align-items: center;">
+                          <select onchange="updateStatus('${ord.code}', this.value)" class="field" style="font-size: 0.75rem; padding: 5px 8px; width: auto;">
+                            <option value="placed" ${ord.status === 'placed' ? 'selected' : ''}>Placed</option>
+                            <option value="paid" ${ord.status === 'paid' ? 'selected' : ''}>Paid</option>
+                            <option value="packing" ${ord.status === 'packing' ? 'selected' : ''}>Diagnostics & Packing</option>
+                            <option value="dispatched" ${ord.status === 'dispatched' ? 'selected' : ''}>Dispatched from Osu</option>
+                            <option value="out_for_delivery" ${ord.status === 'out_for_delivery' ? 'selected' : ''}>Out for Delivery</option>
+                            <option value="delivered" ${ord.status === 'delivered' ? 'selected' : ''}>Delivered</option>
+                          </select>
+                          <button type="button" onclick="openTrackingModal('${ord.code}')" class="btn btn-primary" style="padding: 5px 12px; font-size: 0.68rem;">
+                            📍 Manage Tracking
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  `).join("")}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById("dbConfigForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const url = document.getElementById("supabaseUrlInput").value.trim();
+        const key = document.getElementById("supabaseKeyInput").value.trim();
+        const payKey = document.getElementById("paystackKeyInput").value.trim();
+
+        if (url) localStorage.setItem("lotal_supabase_url", url);
+        if (key) localStorage.setItem("lotal_supabase_key", key);
+        if (payKey) localStorage.setItem("lotal_paystack_key", payKey);
+
+        const msg = document.getElementById("saveMsg");
+        msg.textContent = "✓ Configuration saved! Testing Supabase connection & reloading...";
+        msg.style.display = "block";
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 1200);
+      });
+    }
+
+    function renderProductsRows(productsList) {
+      if (!productsList || productsList.length === 0) {
+        return `<tr><td colspan="6" style="text-align: center; padding: 24px; color: var(--color-steel);">No products in catalogue.</td></tr>`;
+      }
+      return productsList.map(p => {
+        const isOutOfStock = Number(p.stock) <= 0;
+        return `
+          <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+            <td style="padding: 12px 10px; color: white;">
+              <strong>${p.brand}</strong> ${p.name}<br>
+              <span class="micro">${p.processor} · ${p.ram} · ${p.storage}</span>
+            </td>
+            <td class="micro micro-gold" style="padding: 12px 10px;">Grade ${p.grade}</td>
+            <td class="tabular" style="padding: 12px 10px; color: var(--color-gold); font-weight: 600;">${formatGHS(p.price)}</td>
+            <td class="tabular" style="padding: 12px 10px;">
+              <span style="color: ${isOutOfStock ? '#ff6b6b' : 'white'}; font-weight: 600;">
+                ${p.stock} unit${p.stock == 1 ? '' : 's'}
+              </span>
+              ${isOutOfStock ? '<span class="micro" style="color: #ff6b6b; display: block; font-size: 0.55rem;">SOLD OUT</span>' : ''}
+            </td>
+            <td style="padding: 12px 10px;">
+              <div style="display: flex; gap: 4px; align-items: center;">
+                <button type="button" onclick="quickRestock('${p.id}', 1)" title="Add 1 to stock" class="btn btn-ghost" style="padding: 4px 8px; font-size: 0.65rem;">+1</button>
+                <button type="button" onclick="quickRestock('${p.id}', 5)" title="Add 5 to stock" class="btn btn-ghost" style="padding: 4px 8px; font-size: 0.65rem;">+5</button>
+                <button type="button" onclick="quickRestock('${p.id}', 10)" title="Add 10 to stock" class="btn btn-ghost" style="padding: 4px 8px; font-size: 0.65rem;">+10</button>
+                <button type="button" onclick="promptRestock('${p.id}', ${p.stock})" title="Set exact stock quantity" class="btn btn-ghost" style="padding: 4px 8px; font-size: 0.65rem; border-color: var(--color-blue); color: var(--color-blue-light);">Set</button>
+              </div>
+            </td>
+            <td style="padding: 12px 10px; text-align: right;">
+              <div style="display: inline-flex; gap: 8px;">
+                <button type="button" onclick="openEditProductModal('${p.id}')" class="btn btn-ghost" style="padding: 5px 10px; font-size: 0.68rem; color: var(--color-blue-light);">
+                  ✎ Edit
+                </button>
+                <button type="button" onclick="confirmDeleteProduct('${p.id}', '${p.name.replace(/'/g, "\\'")}')" class="btn btn-ghost" style="padding: 5px 10px; font-size: 0.68rem; color: #ff6b6b; border-color: rgba(255,107,107,0.3);">
+                  ✕ Delete
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function filterAdminProducts(query) {
+      const q = (query || "").toLowerCase().trim();
+      const tbody = document.getElementById("adminProductsTbody");
+      if (!tbody) return;
+      const filtered = cachedProducts.filter(p => !q || p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q) || p.processor.toLowerCase().includes(q));
+      tbody.innerHTML = renderProductsRows(filtered);
+    }
+
+    // Quick restock function
+    async function quickRestock(productId, amount) {
+      await Store.restockProduct(productId, amount);
+      renderDashboard();
+    }
+
+    async function promptRestock(productId, currentStock) {
+      const input = prompt(`Enter new total stock count for this laptop:`, currentStock);
+      if (input !== null) {
+        const newStock = Math.max(0, parseInt(input, 10) || 0);
+        const p = cachedProducts.find(x => x.id === productId);
+        if (p) {
+          p.stock = newStock;
+          await Store.saveProduct(p);
+          renderDashboard();
+        }
+      }
+    }
+
+    // Delete product with confirmation
+    async function confirmDeleteProduct(productId, productName) {
+      if (confirm(`Are you sure you want to permanently delete "${productName}" from the catalogue?`)) {
+        await Store.deleteProduct(productId);
+        renderDashboard();
+      }
+    }
+
+    // -------------------------------------------------------------
+    // TRACKING PROCESS MODAL FUNCTIONS
+    // -------------------------------------------------------------
+    async function openTrackingModal(code) {
+      currentTrackingOrderCode = code;
+      const order = await Store.getOrderByCode(code);
+      if (!order) return;
+
+      document.getElementById("trackModalCode").textContent = order.code;
+      document.getElementById("trackModalMeta").textContent = `Customer: ${order.full_name || order.fullName} · Destination: ${order.city} · Total: ${formatGHS(order.total)}`;
+
+      // Render milestone quick buttons
+      const btnContainer = document.getElementById("milestoneButtonsContainer");
+      btnContainer.innerHTML = STAGES.map(st => {
+        const isCurrent = order.status === st;
+        return `
+          <button type="button" onclick="setTrackingStage('${st}')" class="micro" style="padding: 8px 4px; border-radius: 4px; border: 1px solid ${isCurrent ? 'var(--color-blue)' : 'rgba(255,255,255,0.1)'}; background: ${isCurrent ? 'var(--color-blue)' : 'transparent'}; color: ${isCurrent ? '#fff' : 'var(--color-steel)'}; cursor: pointer; text-align: center;">
+            ${STAGE_LABELS[st]}
+          </button>
+        `;
+      }).join("");
+
+      // Populate Delivery Form
+      document.getElementById("delName").value = order.full_name || order.fullName || "";
+      document.getElementById("delPhone").value = order.phone || "";
+      document.getElementById("delCity").value = order.city || "Accra";
+      document.getElementById("delAddress").value = order.address || "";
+      document.getElementById("delNotes").value = order.notes || "";
+
+      // Render Events
+      renderTrackingEventsList(order.events || []);
+
+      document.getElementById("trackingModal").style.display = "flex";
+    }
+
+    function renderTrackingEventsList(events) {
+      const container = document.getElementById("eventsListContainer");
+      if (!events || events.length === 0) {
+        container.innerHTML = `<p class="micro" style="color: var(--color-steel); padding: 8px 0;">No timeline events recorded yet.</p>`;
+        return;
+      }
+      container.innerHTML = [...events].reverse().map(ev => `
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; padding: 10px; background: rgba(7,11,20,0.6); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px;">
+          <div style="flex: 1;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <strong style="color: white; font-size: 0.85rem;">${ev.title}</strong>
+              <span class="micro" style="color: var(--color-blue-light); border: 1px solid rgba(27,107,255,0.3); padding: 1px 6px; border-radius: 2px; font-size: 0.55rem;">
+                ${ev.status || 'milestone'}
+              </span>
+            </div>
+            ${ev.note ? `<p style="font-size: 0.8rem; color: var(--color-steel); margin-top: 3px;">${ev.note}</p>` : ''}
+            <span class="micro tabular" style="color: var(--color-steel); font-size: 0.6rem; display: block; margin-top: 4px;">
+              ${new Date(ev.created_at).toLocaleString()}
+            </span>
+          </div>
+          <button type="button" onclick="removeEvent('${ev.id}')" title="Delete event" style="background: none; border: none; color: #ff6b6b; cursor: pointer; padding: 4px 6px; font-size: 0.75rem;">✕</button>
+        </div>
+      `).join("");
+    }
+
+    async function setTrackingStage(newStage) {
+      if (!currentTrackingOrderCode) return;
+      await Store.updateLocalOrderStatus(currentTrackingOrderCode, newStage, `Milestone advanced to ${STAGE_LABELS[newStage]} by operations desk.`);
+      openTrackingModal(currentTrackingOrderCode);
+      renderDashboard();
+    }
+
+    async function removeEvent(eventId) {
+      if (!confirm("Are you sure you want to remove this milestone event?")) return;
+      if (!currentTrackingOrderCode) return;
+      await Store.deleteTrackingEvent(currentTrackingOrderCode, eventId);
+      openTrackingModal(currentTrackingOrderCode);
+      renderDashboard();
+    }
+
+    function closeTrackingModal() {
+      document.getElementById("trackingModal").style.display = "none";
+      currentTrackingOrderCode = null;
+    }
+
+    // Add Custom Event Form Submit
+    document.getElementById("addEventForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!currentTrackingOrderCode) return;
+
+      const title = document.getElementById("evTitle").value.trim();
+      const stage = document.getElementById("evStage").value;
+      const note = document.getElementById("evNote").value.trim();
+
+      await Store.addTrackingEvent(currentTrackingOrderCode, {
+        title,
+        status: stage,
+        note,
+        updateOrderStatus: true,
+      });
+
+      document.getElementById("evTitle").value = "";
+      document.getElementById("evNote").value = "";
+      openTrackingModal(currentTrackingOrderCode);
+      renderDashboard();
+    });
+
+    // Update Delivery Details Form Submit
+    document.getElementById("editDeliveryForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!currentTrackingOrderCode) return;
+
+      const fullName = document.getElementById("delName").value.trim();
+      const phone = document.getElementById("delPhone").value.trim();
+      const city = document.getElementById("delCity").value;
+      const address = document.getElementById("delAddress").value.trim();
+      const notes = document.getElementById("delNotes").value.trim();
+
+      await Store.updateOrderTrackingDetails(currentTrackingOrderCode, {
+        fullName,
+        phone,
+        city,
+        address,
+        notes,
+      });
+
+      alert("Delivery details updated successfully.");
+      openTrackingModal(currentTrackingOrderCode);
+      renderDashboard();
+    });
+
+    // -------------------------------------------------------------
+    // PRODUCT MODAL FUNCTIONS
+    // -------------------------------------------------------------
+    function openAddProductModal() {
+      document.getElementById("modalSubTitle").textContent = "Add to Catalogue";
+      document.getElementById("modalMainTitle").textContent = "Add New Laptop";
+      document.getElementById("saveProdBtn").textContent = "Add Laptop to Stock →";
+
+      document.getElementById("pId").value = "";
+      document.getElementById("pSlug").value = "";
+      document.getElementById("pBrand").value = "Apple";
+      document.getElementById("pName").value = "";
+      document.getElementById("pTagline").value = "";
+      document.getElementById("pPrice").value = "5500";
+      document.getElementById("pOldPrice").value = "";
+      document.getElementById("pStock").value = "1";
+      document.getElementById("pGrade").value = "A";
+      document.getElementById("pBattery").value = "92";
+      document.getElementById("pOs").value = "macOS Sequoia";
+      document.getElementById("pGradeNote").value = "Inspected on our bench. Clean screen and keyboard deck.";
+      document.getElementById("pProcessor").value = "Apple M1 · 8-core CPU";
+      document.getElementById("pRam").value = "16GB Unified Memory";
+      document.getElementById("pStorage").value = "512GB SSD";
+      document.getElementById("pScreen").value = '14" Retina Display';
+      document.getElementById("pGraphics").value = "Apple 8-core GPU";
+      document.getElementById("pImage").value = "images/laptop-macbook.jpg";
+      document.getElementById("pPorts").value = "Thunderbolt 4, MagSafe 3, 3.5mm";
+      document.getElementById("pFeatured").checked = false;
+
+      const modal = document.getElementById("productModal");
+      modal.style.display = "flex";
+    }
+
+    function openEditProductModal(productId) {
+      const p = cachedProducts.find(x => x.id === productId);
+      if (!p) return;
+
+      document.getElementById("modalSubTitle").textContent = "Update Specification";
+      document.getElementById("modalMainTitle").textContent = `Edit ${p.name}`;
+      document.getElementById("saveProdBtn").textContent = "Save Changes →";
+
+      document.getElementById("pId").value = p.id;
+      document.getElementById("pSlug").value = p.slug;
+      document.getElementById("pBrand").value = p.brand;
+      document.getElementById("pName").value = p.name;
+      document.getElementById("pTagline").value = p.tagline || "";
+      document.getElementById("pPrice").value = (p.price / 100).toFixed(2);
+      document.getElementById("pOldPrice").value = p.oldPrice || p.old_price ? ((p.oldPrice || p.old_price) / 100).toFixed(2) : "";
+      document.getElementById("pStock").value = p.stock;
+      document.getElementById("pGrade").value = p.grade || "A";
+      document.getElementById("pBattery").value = p.batteryHealth || p.battery_health || 90;
+      document.getElementById("pOs").value = p.os || "Windows 11 Pro";
+      document.getElementById("pGradeNote").value = p.gradeNote || p.grade_note || "";
+      document.getElementById("pProcessor").value = p.processor || "";
+      document.getElementById("pRam").value = p.ram || "";
+      document.getElementById("pStorage").value = p.storage || "";
+      document.getElementById("pScreen").value = p.screen || "";
+      document.getElementById("pGraphics").value = p.graphics || "";
+      document.getElementById("pImage").value = p.image || "images/laptop-silver.jpg";
+      document.getElementById("pPorts").value = p.ports || "";
+      document.getElementById("pFeatured").checked = Boolean(p.featured);
+
+      const modal = document.getElementById("productModal");
+      modal.style.display = "flex";
+    }
+
+    function closeProductModal() {
+      document.getElementById("productModal").style.display = "none";
+    }
+
+    document.getElementById("productForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const saveBtn = document.getElementById("saveProdBtn");
+      saveBtn.disabled = true;
+      saveBtn.textContent = "Saving...";
+
+      const id = document.getElementById("pId").value;
+      const slug = document.getElementById("pSlug").value;
+      const brand = document.getElementById("pBrand").value;
+      const name = document.getElementById("pName").value.trim();
+      const tagline = document.getElementById("pTagline").value.trim();
+      const price = Math.round(parseFloat(document.getElementById("pPrice").value) * 100);
+      const oldPriceVal = document.getElementById("pOldPrice").value;
+      const oldPrice = oldPriceVal ? Math.round(parseFloat(oldPriceVal) * 100) : null;
+      const stock = parseInt(document.getElementById("pStock").value, 10);
+      const grade = document.getElementById("pGrade").value;
+      const batteryHealth = parseInt(document.getElementById("pBattery").value, 10);
+      const os = document.getElementById("pOs").value.trim();
+      const gradeNote = document.getElementById("pGradeNote").value.trim();
+      const processor = document.getElementById("pProcessor").value.trim();
+      const ram = document.getElementById("pRam").value.trim();
+      const storage = document.getElementById("pStorage").value.trim();
+      const screen = document.getElementById("pScreen").value.trim();
+      const graphics = document.getElementById("pGraphics").value.trim();
+      const image = document.getElementById("pImage").value.trim();
+      const ports = document.getElementById("pPorts").value.trim();
+      const featured = document.getElementById("pFeatured").checked;
+
+      await Store.saveProduct({
+        id: id || undefined,
+        slug: slug || undefined,
+        brand,
+        name,
+        tagline,
+        price,
+        oldPrice,
+        stock,
+        grade,
+        batteryHealth,
+        os,
+        gradeNote,
+        processor,
+        ram,
+        storage,
+        screen,
+        graphics,
+        image,
+        ports,
+        featured,
+        warrantyDays: 14
+      });
+
+      closeProductModal();
+      saveBtn.disabled = false;
+      renderDashboard();
+    });
+
+    window.updateStatus = async function(code, newStatus) {
+      await Store.updateLocalOrderStatus(code, newStatus, `Status updated to ${STAGE_LABELS[newStatus] || newStatus.toUpperCase()} by staff desk.`);
+      renderDashboard();
+    };
+
+    document.addEventListener("DOMContentLoaded", renderAdmin);
+  </script>
+</body>
+</html>
