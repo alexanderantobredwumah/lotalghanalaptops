@@ -1,0 +1,25 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "api/index.php": {
+      "runtime": "vercel-php@0.9.0",
+      "memory": 1024,
+      "maxDuration": 60
+    },
+    "api/webhook.php": {
+      "runtime": "vercel-php@0.9.0",
+      "memory": 512,
+      "maxDuration": 30
+    }
+  },
+  "routes": [
+    { "src": "/assets/(.*)", "dest": "/assets/$1" },
+    { "src": "/admin.html", "dest": "/api/index.php?r=/admin" },
+    { "src": "/admin.php", "dest": "/api/index.php?r=/admin" },
+    { "src": "/admin", "dest": "/api/index.php?r=/admin" },
+    { "src": "/paystack/webhook", "dest": "/api/index.php?r=/paystack/webhook" },
+    { "src": "/install", "dest": "/api/index.php?r=/install" },
+    { "src": "/health", "dest": "/api/index.php?r=/health" },
+    { "src": "/(.*)", "dest": "/api/index.php?r=/$1" }
+  ]
+}

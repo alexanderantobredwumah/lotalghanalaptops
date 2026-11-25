@@ -1,0 +1,28 @@
+{
+  "name": "lotal/lotal-ghana-php",
+  "description": "LOTAL GHANA — graded used laptop store, PHP edition (Paystack + PostgreSQL/Supabase).",
+  "type": "project",
+  "license": "proprietary",
+  "require": {
+    "php": ">=8.1",
+    "ext-pdo": "*",
+    "ext-pdo_pgsql": "*",
+    "ext-json": "*",
+    "ext-mbstring": "*"
+  },
+  "suggest": {
+    "ext-curl": "Faster, more reliable Paystack calls (a stream fallback is used without it)"
+  },
+  "autoload": {
+    "files": [
+      "api/inc/bootstrap.php"
+    ]
+  },
+  "scripts": {
+    "serve": "php -S localhost:8080 router.php",
+    "lint": "find api -name '*.php' -print0 | xargs -0 -n1 php -l"
+  },
+  "config": {
+    "optimize-autoloader": true
+  }
+}
