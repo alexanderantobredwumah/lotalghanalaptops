@@ -146,8 +146,8 @@ const Store = {
     const defaultUrl = "https://fogkwmwbuqumqxiedkzi.supabase.co";
     const defaultKey = "sb_publishable_eE08In_2tmo_TsaudiDIpw_qq4jZvy-";
 
-    const url = (typeof localStorage !== "undefined" && localStorage.getItem("lotal_supabase_url")) || window.LOTAL_CONFIG?.SUPABASE_URL || defaultUrl;
-    const key = (typeof localStorage !== "undefined" && localStorage.getItem("lotal_supabase_key")) || window.LOTAL_CONFIG?.SUPABASE_ANON_KEY || defaultKey;
+    const url = (typeof localStorage !== "undefined" && localStorage.getItem("https://fogkwmwbuqumqxiedkzi.supabase.co")) || window.LOTAL_CONFIG?.SUPABASE_URL || defaultUrl;
+    const key = (typeof localStorage !== "undefined" && localStorage.getItem("sb_publishable_eE08In_2tmo_TsaudiDIpw_qq4jZvy-")) || window.LOTAL_CONFIG?.SUPABASE_ANON_KEY || defaultKey;
 
     if (window.supabase && url && key) {
       try {
